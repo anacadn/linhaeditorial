@@ -170,19 +170,29 @@ function calRenderizar(){
   var pd=new Date(info.ano,info.mes,1).getDay(),ud=new Date(info.ano,info.mes+1,0).getDate();
   var h='<div class="cal-grid">';
   DIAS_JS.forEach(function(d){h+='<div class="cal-dow">'+d+'</div>';});
-  for(var i=0;i<pd;i++)h+='<div class="cal-cell cal-cell-empty"></div>';
+  var semanas=[],semAtual=[];
+  for(var i=0;i<pd;i++)semAtual.push({dia:null,ps:[]});
   for(var dia=1;dia<=ud;dia++){
-    var ps=info.postsPorDia[dia]||[];
-    h+='<div class="cal-cell'+(ps.length?' cal-cell-post':'')+'"><span class="cal-day-num">'+dia+'</span>';
-    ps.forEach(function(p){
-      var pid=String(p.postId).replace(/['"]/g,"");
-      h+='<div class="cal-post" onclick="goToPost(\''+ pid +'\','+p.abaIdx+')">';
-      if(p.thumb)h+='<img class="cal-thumb" src="'+p.thumb+'" loading="lazy">';
-      else h+='<div class="cal-thumb cal-thumb-empty"><span>'+p.tipo.charAt(0)+'</span></div>';
-      h+='<div class="cal-post-info"><span class="cal-tag">'+p.tipo+'</span><span class="cal-tema">'+p.tema+'</span></div></div>';
-    });
-    h+='</div>';
+    semAtual.push({dia:dia,ps:info.postsPorDia[dia]||[]});
+    if(semAtual.length===7){semanas.push(semAtual);semAtual=[];}
   }
+  if(semAtual.length)semanas.push(semAtual);
+  semanas.forEach(function(sem){
+    var temPost=sem.some(function(c){return c.ps&&c.ps.length;});
+    if(!temPost)return;
+    sem.forEach(function(c){
+      if(!c.dia){h+='<div class="cal-cell cal-cell-empty"></div>';return;}
+      h+='<div class="cal-cell'+(c.ps.length?' cal-cell-post':'')+'"><span class="cal-day-num">'+c.dia+'</span>';
+      c.ps.forEach(function(p){
+        var pid=String(p.postId).replace(/['"]/g,"");
+        h+='<div class="cal-post" onclick="goToPost(\''+ pid +'\','+p.abaIdx+')">';
+        if(p.thumb)h+='<img class="cal-thumb" src="'+p.thumb+'" loading="lazy">';
+        else h+='<div class="cal-thumb cal-thumb-empty"><span>'+p.tipo.charAt(0)+'</span></div>';
+        h+='<div class="cal-post-info"><span class="cal-tag">'+p.tipo+'</span><span class="cal-tema">'+p.tema+'</span></div></div>';
+      });
+      h+='</div>';
+    });
+  });
   h+='</div>';
   document.getElementById("calGrid").innerHTML=h;
 }
