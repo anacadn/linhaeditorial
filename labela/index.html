@@ -410,7 +410,7 @@ function carregarStatus(){
   window.addEventListener("scroll",function(){btn.classList.toggle("visible",window.scrollY>300);});
   if(CAL_CHAVES.length)calRenderizar();
   postsRenderizar();
-  setTimeout(function(){carregarStatus();},1000);
+  carregarStatus();
 })();
 </script>
 </body>
