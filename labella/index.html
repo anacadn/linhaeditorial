@@ -179,8 +179,8 @@ iframe{width:100%;height:100%;border:none;display:block;background:#000;}
 .obs-edit-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
 .obs-edit-textarea{width:100%;padding:14px;border:2px solid #fca5a5;border-radius:12px;font-family:"Montserrat",sans-serif;font-size:13px;resize:vertical;min-height:70px;outline:none;background:#fff5f5;color:#555;}
 .obs-edit-textarea:focus{border-color:#ef4444;}
-.btn-atualizar{align-self:flex-start;padding:9px 20px;background:var(--roxo);color:white;border:none;border-radius:100px;font-family:"Montserrat",sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
-.btn-atualizar:hover{opacity:.85;}
+.btn-atualizar{align-self:flex-start;padding:9px 20px;background:white;color:var(--roxo);border:2px solid var(--roxo);border-radius:100px;font-family:"Montserrat",sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
+.btn-atualizar:hover{background:#f5f0ff;}
 .post-block.aprovado{border:2px solid #22c55e;}
 .post-block.reprovado{border:2px solid #ef4444;}
 .is-mobile .fb-btns{gap:10px;}
@@ -354,27 +354,22 @@ function atualizarUI(id,status,obs){
   if(!post||!container)return;
   post.classList.remove("aprovado","reprovado");
   container.innerHTML="";
-  var iconAlt='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/><\/svg>';
   var h="";
   if(status==="aprovado"){
     post.classList.add("aprovado");
-    h+='<div class="fb-btns">';
-    h+='<span class="status-badge status-aprovado">✓ Aprovado</span>';
-    h+='</div>';
+    h+='<div class="fb-btns"><span class="status-badge status-aprovado">✓ Post Aprovado</span></div>';
     h+='<div class="fb-btns" style="margin-top:10px;">';
-    h+='<button class="btn-alterar" onclick="alterarValidacao(&quot;'+id+'&quot;)">'+iconAlt+'Alterar validação</button>';
+    h+='<button class="btn-alterar" onclick="alterarValidacao(&quot;'+id+'&quot;)">Alterar validação</button>';
     h+='</div>';
     if(btns)btns.style.display="none";if(form)form.style.display="none";
   }else if(status==="reprovado"){
     post.classList.add("reprovado");
-    h+='<div class="fb-btns">';
-    h+='<span class="status-badge status-reprovado">✗ Reprovado</span>';
-    h+='</div>';
+    h+='<div class="fb-btns"><span class="status-badge status-reprovado">✗ Post Reprovado</span></div>';
     h+='<div class="obs-edit-box">';
     h+='<textarea class="obs-edit-textarea" id="obs-edit-'+id+'">'+obs+'</textarea>';
     h+='<div class="obs-edit-actions">';
     h+='<button class="btn-atualizar" onclick="atualizarObs(&quot;'+id+'&quot;)">Atualizar comentário</button>';
-    h+='<button class="btn-alterar" onclick="alterarValidacao(&quot;'+id+'&quot;)">'+iconAlt+'Alterar validação</button>';
+    h+='<button class="btn-alterar" onclick="alterarValidacao(&quot;'+id+'&quot;)">Alterar validação</button>';
     h+='</div></div>';
     if(btns)btns.style.display="none";if(form)form.style.display="none";
   }
