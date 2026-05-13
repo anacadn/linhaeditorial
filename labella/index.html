@@ -384,6 +384,15 @@ function carregarStatus(){
     });
   }).catch(function(){});
 }
+(function(){
+  window.addEventListener("resize",function(){
+    document.documentElement.classList.toggle("is-mobile",window.innerWidth<=768);
+  });
+  var btn=document.getElementById("backTop");
+  window.addEventListener("scroll",function(){btn.classList.toggle("visible",window.scrollY>300);});
+  if(CAL_CHAVES.length)calRenderizar();
+  postsRenderizar();
+  carregarStatus();
 })();
 </script>
 </body>
