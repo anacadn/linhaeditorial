@@ -172,15 +172,18 @@ iframe{width:100%;height:100%;border:none;display:block;background:#000;}
 .status-badge{padding:9px 0;border-radius:100px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;width:160px;}
 .status-aprovado{background:#dcfce7;color:#16a34a;}
 .status-reprovado{background:#fee2e2;color:#dc2626;}
-.btn-alterar{background:none;border:none;font-family:"Montserrat",sans-serif;font-size:12px;font-weight:400;cursor:pointer;color:#999;text-decoration:underline;padding:0;display:inline-flex;align-items:center;gap:4px;margin-top:4px;}
-.btn-alterar:hover{color:#666;}
+.btn-alterar{background:none;border:none;font-family:"Montserrat",sans-serif;font-size:12px;font-weight:400;cursor:pointer;color:#666;text-decoration:underline;padding:0;display:inline-flex;align-items:center;gap:4px;margin-top:4px;}
+.btn-alterar:hover{color:#333;}
 .btn-editar{padding:8px 18px;border:2px solid #bbb;border-radius:100px;font-family:"Montserrat",sans-serif;font-size:12px;font-weight:700;cursor:pointer;background:white;color:#666;display:inline-flex;align-items:center;gap:6px;}
 .btn-editar:hover{border-color:#888;color:#444;}
 .obs-edit-textarea[readonly]{background:#fafafa;color:#888;border-color:var(--border);cursor:default;}
 .obs-edit-box{margin-top:14px;display:flex;flex-direction:column;gap:10px;}
-.obs-edit-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-.obs-edit-textarea{width:100%;padding:14px;border:2px solid #fca5a5;border-radius:12px;font-family:"Montserrat",sans-serif;font-size:13px;resize:vertical;min-height:70px;outline:none;background:#fff5f5;color:#555;}
+.obs-edit-row{display:flex;gap:10px;align-items:flex-start;}
+.obs-edit-actions{display:flex;flex-direction:column;gap:8px;flex-shrink:0;}
+.obs-edit-textarea{flex:1;padding:14px;border:2px solid #ddd;border-radius:12px;font-family:"Montserrat",sans-serif;font-size:13px;resize:vertical;min-height:80px;outline:none;background:#fafafa;color:#666;}
+.obs-edit-textarea:not([readonly]){border-color:#fca5a5;background:#fff5f5;color:#555;}
 .obs-edit-textarea:focus{border-color:#ef4444;}
+.btn-editar,.btn-atualizar{width:90px;justify-content:center;text-align:center;}
 .btn-atualizar{align-self:flex-start;padding:9px 20px;background:#444;color:white;border:2px solid #444;border-radius:100px;font-family:"Montserrat",sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
 .btn-atualizar:hover{background:#222;border-color:#222;}
 .post-block.aprovado{border:2px solid #22c55e;}
@@ -367,20 +370,18 @@ function atualizarUI(id,status,obs){
   if(status==="aprovado"){
     post.classList.add("aprovado");
     h+='<div class="fb-btns"><span class="status-badge status-aprovado">✓ Post Aprovado</span></div>';
-    h+='<div class="fb-btns" style="margin-top:8px;">';
-    h+='<button class="btn-alterar" onclick="alterarValidacao(&quot;'+id+'&quot;)">Alterar validação</button>';
-    h+='</div>';
+    h+='<div class="fb-btns" style="margin-top:8px;"><button class="btn-alterar" onclick="alterarValidacao(&quot;'+id+'&quot;)">Alterar validação</button></div>';
     if(btns)btns.style.display="none";if(form)form.style.display="none";
   }else if(status==="reprovado"){
     post.classList.add("reprovado");
     h+='<div class="fb-btns"><span class="status-badge status-reprovado">✗ Post Reprovado</span></div>';
-    h+='<div class="obs-edit-box">';
+    h+='<div class="fb-btns" style="margin-top:8px;"><button class="btn-alterar" onclick="alterarValidacao(&quot;'+id+'&quot;)">Alterar validação</button></div>';
+    h+='<div class="obs-edit-box"><div class="obs-edit-row">';
     h+='<textarea class="obs-edit-textarea" id="obs-edit-'+id+'" readonly>'+obs+'</textarea>';
     h+='<div class="obs-edit-actions">';
     h+='<button class="btn-editar" id="btn-editar-'+id+'" onclick="habilitarEdicao(&quot;'+id+'&quot;)">'+pencil+'Editar</button>';
     h+='<button class="btn-atualizar" id="btn-salvar-'+id+'" style="display:none;" onclick="atualizarObs(&quot;'+id+'&quot;)">Salvar</button>';
-    h+='<button class="btn-alterar" onclick="alterarValidacao(&quot;'+id+'&quot;)">Alterar validação</button>';
-    h+='</div></div>';
+    h+='</div></div></div>';
     if(btns)btns.style.display="none";if(form)form.style.display="none";
   }
   container.innerHTML=h;
